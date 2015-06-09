@@ -6,7 +6,9 @@
 %  where omega is the vorticity v x \/ and all approximations will be made
 %  using finite differences
 
-%% A 1D convective example
+%% A 2D convective diffusive example
+clear all
+
 Init
 
 solve
