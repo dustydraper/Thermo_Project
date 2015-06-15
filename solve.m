@@ -12,6 +12,6 @@ omega(:) = omega(:) + dt*A*omega(:) - dt*b(:);
   % Plot transported wave for each timestep
   surf(x_vector,y_vector, omega);
   hold off;
-  pause(0.003);
+  pause(0.001);
 
 end
