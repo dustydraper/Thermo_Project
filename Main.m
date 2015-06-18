@@ -12,4 +12,4 @@ Init
 
 [ X, Y ] = setUpMesh( dimX, dimY, geometry );
 
-[ U, V, PHI] = solve( X, Y, boundary, SPEED, geometry );
+[ U, V, PHI,A,B] = solve( X, Y, boundary, SPEED, geometry );

@@ -1,4 +1,4 @@
-function [ PHI ] = solveStream( X, Y, boundary, SPEED, geometry)
+function [ PHI,A,B ] = solveStream( X, Y, boundary, SPEED, geometry)
 
 
 %SOLVESTREAM Solves the continuity equation in terms of the streamline
@@ -39,8 +39,9 @@ for j =1:dimX
         end
     elseif(j==dimX)
         for i=2:dimY-1
-            STREAM.east = 0;
-            B(i,j)= STREAM.east;
+            
+%             STREAM.east = SPEED.east.x*Y(i,j) + SPEED.east.x + SPEED.east.y;
+%             B(i,j)= STREAM.east;
         end
     end
 end
@@ -55,17 +56,19 @@ for ii = 1:dimY
         end
     elseif ii == dimX % South Part
         
-        for jj = 1:(dimY-1)
+        for jj = 1:(dimY)
             A(index(ii,jj),index(ii,jj)) = 1;
         end
         
     else % Middle points
         for jj = 2:(dimX-1)
+            
             A(index(ii,jj),index(ii,jj)) = -2/(delta_x^2)-2/(delta_y^2);
-            A(index(ii,jj),index(ii,jj) - 1) = 1/(delta_x^2);
-            A(index(ii,jj),index(ii,jj) + 1) = 1/(delta_x^2);
-            A(index(ii,jj),index(ii,jj) - dimX) = 1/(delta_y^2);
-            A(index(ii,jj),index(ii,jj) + dimX) = 1/(delta_y^2);
+            A(index(ii,jj),index(ii - 1,jj) ) = 1/(delta_x^2);
+            A(index(ii,jj),index(ii + 1,jj) ) = 1/(delta_x^2);
+            A(index(ii,jj),index(ii,jj+1) ) = 1/(delta_y^2);
+            A(index(ii,jj),index(ii,jj-1) ) = 1/(delta_y^2);
+
         end
     end
 end
@@ -77,10 +80,11 @@ for jj = 1:dimX
         end
     elseif jj == dimX % East Part
         
-        for ii = 2:(dimY)
+        for ii = 2:(dimY-1)
+            A(index(ii,jj),index(ii,jj)) = 1;
             A(index(ii,jj),index(ii,jj)) = 1/(delta_x^2);
-            A(index(ii,jj),index(ii,jj) - 1) = -2/(delta_x^2);
-            A(index(ii,jj),index(ii,jj) - 2) = 1/(delta_x^2);
+            A(index(ii,jj),index(ii,jj-1)) = -2/(delta_x^2);
+            A(index(ii,jj),index(ii,jj-2)) = 1/(delta_x^2);
         end
     end
 end

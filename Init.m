@@ -10,7 +10,7 @@ geometry.l = 4;
 % Number of degrees of freedom (number of nodes per length)
 
 dimX = 50;
-dimY = 20;
+dimY = 50;
 
 % Boundary conditions (Only Dirichlet applied in Session 03) 
 
@@ -24,7 +24,7 @@ boundary.west = 'Dirichlet';
 SPEED.north.x = 0;
 SPEED.north.y = 0;
 
-SPEED.east.x = 0;
+SPEED.east.x = 10;
 SPEED.east.y = 0;
 
 SPEED.south.x = 0;
@@ -36,7 +36,7 @@ SPEED.west.y = 0;
 
 % Fluidparameters
 
-nu = 1; % Water at 20 °C, in mPa*s
+nu = 1; % Water at 20 ?C, in mPa*s
 
 
 

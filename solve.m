@@ -1,4 +1,4 @@
-function [ U, V, PHI] = solve( X, Y, boundary, SPEED, geometry )
+function [ U, V, PHI, A,B] = solve( X, Y, boundary, SPEED, geometry )
 %SOLVE Summary of this function goes here
 %  Matrix is capital, vector is small
 
@@ -8,8 +8,9 @@ index = @(ii,jj) ii + (jj-1)*dimY;
 U = zeros(dimY,dimX);
 V = zeros(dimY,dimX);
 
-[ PHI ] = solveStream( X, Y, boundary, SPEED, geometry);
+[ PHI,A,B ] = solveStream( X, Y, boundary, SPEED, geometry);
 
+[U,V] = solveVelocityfromStream( X, Y, PHI, boundary, SPEED, geometry);
 
 end
 
