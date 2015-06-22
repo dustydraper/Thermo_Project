@@ -1,4 +1,4 @@
-function [ U, V, PHI, A,B] = solve( X, Y, boundary, SPEED, geometry )
+function [ U, V, PHI, A,B,OMEGA] = solve( X, Y, boundary, SPEED, geometry )
 %SOLVE Summary of this function goes here
 %  Matrix is capital, vector is small
 
@@ -11,6 +11,10 @@ V = zeros(dimY,dimX);
 [ PHI,A,B ] = solveStream( X, Y, boundary, SPEED, geometry);
 
 [U,V] = solveVelocityfromStream( X, Y, PHI, boundary, SPEED, geometry);
+
+[OMEGA,A,b] =solveVorticityfromStream(PHI,U,V,SPEED,geometry);
+
+[OMEGA_N] = timeIntegration(OMEGA,A,b);
 
 end
 
