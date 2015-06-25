@@ -1,6 +1,6 @@
 function [OMEGA,A,B] = solveVorticityfromStream(PHI,U,V,SPEED,geometry)
 %WE MUST SOLVE VORTICTY EQN 
-nu = 0.1;
+nu = 1;
 %RIGHT NOW WE ARE JUST FILLING BOUNDARY CONDITIONS
 [dimY,dimX] = size(PHI);
 index = @(ii,jj) ii + (jj-1)*dimY;

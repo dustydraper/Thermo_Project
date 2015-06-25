@@ -15,7 +15,7 @@ PHI = zeros(dimY,dimX);
 
 for ii = 2:(dimY-1)
     for jj = 2:(dimX-1)
-          B(ii,jj)=OMEGA(ii,jj);
+        B(ii,jj)=OMEGA(ii,jj);
     end
 end
 
@@ -23,18 +23,18 @@ end
 % Filling the A matrix
 
 for ii = 2:(dimY-1)
-        for jj = 2:(dimX-1)
-            %now using E-W and N-S
-            A(index(ii,jj),index(ii,jj))   = -2/delta_x^2 - 2/delta_y^2 ;
-            A(index(ii,jj),index(ii,jj-1)) = 1/delta_x^2 ;
-            A(index(ii,jj),index(ii,jj+1)) =  1/delta_x^2 ;
-            A(index(ii,jj),index(ii-1,jj)) =  1/delta_y^2 ;
-            A(index(ii,jj),index(ii+1,jj)) =  1/delta_y^2 ;
-
+    for jj = 2:(dimX-1)
+        %now using E-W and N-S
+        A(index(ii,jj),index(ii,jj))   = -2/delta_x^2 - 2/delta_y^2 ;
+        A(index(ii,jj),index(ii,jj-1)) = 1/delta_x^2 ;
+        A(index(ii,jj),index(ii,jj+1)) =  1/delta_x^2 ;
+        A(index(ii,jj),index(ii-1,jj)) =  1/delta_y^2 ;
+        A(index(ii,jj),index(ii+1,jj)) =  1/delta_y^2 ;
+        
     end
 end
 
 
 
-OMEGA(:) = A\B(:);
+PHI(:) = A\B(:);
 end
