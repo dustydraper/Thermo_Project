@@ -20,7 +20,7 @@ for  count = 0:dt:tend
     [U,V] = solveVelocityfromStream( X, Y, PHI, boundary, SPEED, geometry); 
     pcolor(U)
     pause(.1);
-    [OMEGA,A_vorticity,B_vorticity] =solveVorticityfromStream(PHI,U,V,SPEED,geometry);
+    [OMEGA,A_vorticity,B_vorticity] =solveVorticityfromStream(PHI,U,V,SPEED,geometry,OMEGA_N);
     
     [OMEGA_N] = timeIntegration(OMEGA,A_vorticity,B_vorticity);
     

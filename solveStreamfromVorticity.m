@@ -26,10 +26,10 @@ for ii = 2:(dimY-1)
     for jj = 2:(dimX-1)
         %now using E-W and N-S
         A(index(ii,jj),index(ii,jj))   = -2/delta_x^2 - 2/delta_y^2 ;
-        A(index(ii,jj),index(ii,jj-1)) = 1/delta_x^2 ;
-        A(index(ii,jj),index(ii,jj+1)) =  1/delta_x^2 ;
-        A(index(ii,jj),index(ii-1,jj)) =  1/delta_y^2 ;
-        A(index(ii,jj),index(ii+1,jj)) =  1/delta_y^2 ;
+        A(index(ii,jj),index(ii - 1,jj) ) = 1/(delta_y^2);
+        A(index(ii,jj),index(ii + 1,jj) ) = 1/(delta_y^2);
+        A(index(ii,jj),index(ii,jj+1) ) = 1/(delta_x^2);
+        A(index(ii,jj),index(ii,jj-1) ) = 1/(delta_x^2);
         
     end
 end

@@ -1,4 +1,4 @@
-function [OMEGA,A,B] = solveVorticityfromStream(PHI,U,V,SPEED,geometry)
+function [OMEGA,A,B] = solveVorticityfromStream(PHI,U,V,SPEED,geometry,OMEGA_N)
 %WE MUST SOLVE VORTICTY EQN 
 nu = 1;
 %RIGHT NOW WE ARE JUST FILLING BOUNDARY CONDITIONS
@@ -53,7 +53,7 @@ for ii = 2:(dimY-1)
 %         B(ii,jj+1) = 1/delta_x^2;
 %         B(ii+1,jj) = 1/delta_y^2;
 %         B(ii-1,jj) = 1/delta_y^2;
-          B(ii,jj)=0;
+          B(ii,jj)=OMEGA_N(ii,jj);
     end
 end
 
@@ -79,10 +79,10 @@ for ii = 1:dimY
         for jj = 2:(dimX-1)
             %now using E-W and N-S
             A(index(ii,jj),index(ii,jj))   = (U(ii,jj+1)-U(ii,jj-1))/(2*delta_x) + (V(ii-1,jj)-V(ii+1,jj))/(2*delta_y) + 2*nu*(1/delta_x^2 +1/delta_y^2);
-            A(index(ii,jj),index(ii,jj-1)) = - U(ii,jj)/(2*delta_x) - nu*(1/delta_x^2);
-            A(index(ii,jj),index(ii,jj+1)) =  U(ii,jj)/(2*delta_x) - nu*(1/delta_x^2);
+            A(index(ii,jj),index(ii,jj-1)) = - U(ii,jj)/(2*delta_x) -  nu*(1/delta_x^2);
+            A(index(ii,jj),index(ii,jj+1)) =   U(ii,jj)/(2*delta_x) -  nu*(1/delta_x^2);
             A(index(ii,jj),index(ii-1,jj)) =  -V(ii,jj)/(2*delta_y)  - nu*(1/delta_y^2);
-            A(index(ii,jj),index(ii+1,jj)) =  V(ii,jj)/(2*delta_y) - nu*(1/delta_y^2);
+            A(index(ii,jj),index(ii+1,jj)) =   V(ii,jj)/(2*delta_y) -  nu*(1/delta_y^2);
 
         end
     end
