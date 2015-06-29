@@ -1,4 +1,4 @@
-function [PHI,B] = solveStreamfromVorticity(OMEGA,U,V,geometry,SPEED,A,B)
+    function [PHI,B] = solveStreamfromVorticity(OMEGA,geometry,A,B)
 [dimY,dimX] = size(OMEGA);
 index = @(ii,jj) ii + (jj-1)*dimY;
 

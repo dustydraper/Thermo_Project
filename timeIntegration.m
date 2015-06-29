@@ -1,7 +1,7 @@
-function [OMEGA_N] = timeIntegration(OMEGA,A,b)
-dt = 0.001;
+function [OMEGA] = timeIntegration(OMEGA,A,b,dt)
 [dimY,dimX] = size(OMEGA);
 OMEGA_N = zeros(dimX,dimY);
 OMEGA_N(:) = OMEGA(:) + dt*(A * OMEGA(:) - b(:));
+OMEGA = OMEGA_N;
 
 end
