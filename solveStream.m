@@ -51,12 +51,12 @@ end
 
 for ii = 1:dimY
     if ii == 1 % North Part
-        for jj = 2:dimX
+        for jj = 1:dimX
             A(index(ii,jj),index(ii,jj)) = 1;
         end
-    elseif ii == dimX % South Part
+    elseif ii == dimY % South Part
         
-        for jj = 1:(dimY)
+        for jj = 1:dimX
             A(index(ii,jj),index(ii,jj)) = 1;
         end
         

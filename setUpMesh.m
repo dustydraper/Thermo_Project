@@ -6,7 +6,7 @@ h = geometry.h;
 
 x = linspace(0,l,dimX);
 
-y = linspace(h,0,dimX);
+y = linspace(h,0,dimY);
 
 [X,Y] = meshgrid(x,y);
 

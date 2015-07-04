@@ -1,6 +1,6 @@
 function [A,B] = solveVorticityfromStream(PHI,U,V,SPEED,geometry)
 %WE MUST SOLVE VORTICTY EQN 
-nu = 1;
+nu =1.0;
 [dimY,dimX] = size(PHI);
 index = @(ii,jj) ii + (jj-1)*dimY;
 
@@ -61,14 +61,14 @@ end
 
 for ii = 1:dimY
     if ii == 1 % North Part
-        for jj = 2:dimX
+        for jj = 1:dimX
             A(index(ii,jj),index(ii,jj)) = 1/3;
             A(index(ii,jj),index(ii+1,jj)) = 1/6;
             %A(index(ii,jj),index(ii+2,jj)) = -1/12;
         end
-    elseif ii == dimX % South Part
+    elseif ii == dimY % South Part
         
-        for jj = 1:(dimY)   % Watch out with the signs here, because you use a backward scheme, you cannot use the exact same formula as in the book (2.16)
+        for jj = 1:(dimX)   % Watch out with the signs here, because you use a backward scheme, you cannot use the exact same formula as in the book (2.16)
                             % This only works for the forward scheme.
             A(index(ii,jj),index(ii,jj)) = -2/3;
             A(index(ii,jj),index(ii-1,jj)) = 1/6;
@@ -90,7 +90,7 @@ end
 
 for jj = 1:dimX
     if jj == 1 % West Part (INLET) signs?
-        for ii = 1:(dimY-1)
+        for ii = 2:(dimY-1)
             A(index(ii,jj),index(ii,jj)) = 1/3;
             A(index(ii,jj),index(ii,jj+1)) = 1/6;
             %A(index(ii,jj),index(ii,jj+2)) = -1/12;

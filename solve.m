@@ -17,8 +17,8 @@ delta_y = h/(dimY-1);
 dt = 0.0001;
 tsteps = 100;
 tend = tsteps*dt;
-OMEGA = zeros(dimX,dimY);
-OMEGA_N = zeros(dimX,dimY);
+OMEGA = zeros(dimY,dimX);
+OMEGA_N = zeros(dimY,dimX);
 
 [ PHI, A_stream, B_stream ] = solveStream( X, Y, boundary, SPEED, geometry); % works properly
 
@@ -29,10 +29,11 @@ for ii = 1:dimY
     for jj = 1:dimX
         if(ii==1)
             
-            U(ii,jj) = -(-PHI(ii,jj)+PHI(ii+1,jj)) / delta_y;
-            
+%            U(ii,jj) = -(-PHI(ii,jj)+PHI(ii+1,jj)) / delta_y;
+            U(ii,jj) = 0;
         elseif(ii==dimY)
-            U(ii,jj) = -(-PHI(ii-1,jj)+PHI(ii,jj)) / delta_y;
+%            U(ii,jj) = -(-PHI(ii-1,jj)+PHI(ii,jj)) / delta_y;
+            U(ii,jj) = 0;
         end
     end
 end
@@ -51,15 +52,12 @@ end
 for  count = 0:dt:tend
     
     [U,V] = solveVelocityfromStream( X,PHI, geometry,U,V);
-    figure(1)
-    contour(U);
-    pause(.1);
-    
+%     figure(1)
+%     contour(U);
+%     pause(.01);
     [A_vorticity,B_vorticity] =solveVorticityfromStream(PHI,U,V,SPEED,geometry);
     [OMEGA_N] = timeIntegration(OMEGA_N,A_vorticity,B_vorticity,dt);
-    
-    figure(2)
-    contour(OMEGA_N);
+%     [ PHI, A, B ] = backSolvePhi( U, V,X,Y, OMEGA_N, geometry);
     [PHI,B_vorticity] = solveStreamfromVorticity(OMEGA_N,geometry,A_stream, B_stream);
 end
 
