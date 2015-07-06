@@ -4,8 +4,8 @@
 
 % Geometry
 
-geometry.h = 1;
-geometry.l = 1;
+geometry.h = 4;
+geometry.l = 8;
     
 % Number of degrees of freedom (number of nodes per length)
 

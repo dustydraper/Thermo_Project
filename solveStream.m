@@ -20,12 +20,12 @@ PHI = zeros(dimY,dimX);
 for i =1:dimY
     if(i==1) %NORTH
         for j=1:dimX
-            STREAM.north = SPEED.west.x*Y(i,j);% + SPEED.west.x*h + SPEED.west.x + SPEED.west.y;
+            STREAM.north = SPEED.west.y*X(i,j) + SPEED.west.x*h + SPEED.west.x + SPEED.west.y;
             B(i,j)= STREAM.north;
         end
     elseif(i==dimY) %SOUTH
         for j=1:dimX
-            STREAM.south = SPEED.west.x*Y(i,j);% + SPEED.west.x + SPEED.west.y;
+            STREAM.south = SPEED.west.y*X(i,j) + SPEED.west.x + SPEED.west.y;
             B(i,j)= STREAM.south;
         end
     end
@@ -34,13 +34,13 @@ end
 for j =1:dimX
     if(j==1) %WEST
         for i=2:dimY-1
-            STREAM.west =  SPEED.west.x*Y(i,j);% SPEED.west.y*X(i,j)+ SPEED.west.x + SPEED.west.y;
+            STREAM.west =  SPEED.west.x*Y(i,j) + SPEED.west.x + SPEED.west.y;
             B(i,j)= STREAM.west;
         end
     elseif(j==dimX) %EAST
         for i=2:dimY-1
             
-%             STREAM.east = SPEED.east.y*X(i,j) + SPEED.east.x + SPEED.east.y;
+%             STREAM.east = SPEED.east.x*Y(i,j) + SPEED.east.x + SPEED.east.y;
 %             B(i,j)= STREAM.east;
         end
     end
