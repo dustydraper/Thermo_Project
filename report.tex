@@ -121,6 +121,8 @@ Most of the time a specific case is under study (swirled combustor with two stag
 
 \section{Name of the method (model) proposed}
 
+
+\subsection{Mathematical description}
 As is often the case in fluid dynamics, the starting point of the proposed model are the continuity equation and the Navier-Stokes equations. Relevant for this project, is the 2D case in Cartesian coordinates. For incompressible, isothermal flow, the continuity equation is shown by Eq.~\eqref{eq:Cont}.
 
 \begin{equation}
@@ -129,7 +131,8 @@ As is often the case in fluid dynamics, the starting point of the proposed model
 \end{equation}
 
 with $u$ and $v$ the velocity in the x-direction and in the y-direction, respectively.
-
+\\
+\\
 The Navier-Stokes equation for incompressible, isothermal flow are shown in Eq.~\eqref{eq:Navierx} and Eq.~\eqref{eq:Naviery}. 
 
 \begin{equation}
@@ -142,9 +145,53 @@ The Navier-Stokes equation for incompressible, isothermal flow are shown in Eq.~
 \label{eq:Naviery}
 \end{equation}
 
-Here, $u$, $v$, $P$ and $\nu$ are the velocity in the x-direction, the velocity in the y-direction, the pressure and the kinematic viscosity, respectively.  
+Here, $u$, $v$, $P$ and $\nu$ are the velocity in the $x$-direction, the velocity in the $y$-direction, the pressure and the kinematic viscosity, respectively.  
 \\
-To derive the vorticity equation, we take the partial derivative with respect to $x$ from \eqref{eq:Naviery} and the partial derivative with respect to $y$ from \eqref{eq:Navierx}. After that equation \eqref{eq:Navierx} is subtracted from \eqref{eq:Naviery}. Furthermore, we need the definition in of the vorticity in a 2D case.
+\\
+Next, we need the definition of the vorticity in the 2D case. This is given by \eqref{eq:defVorticity}.
+
+\begin{equation}
+\omega = \frac{\partial v}{\partial x} - \frac{\partial u}{\partial y}
+\label{eq:defVorticity}
+\end{equation}
+
+Here, $\omega$ denotes the vorticity. For the sake of simplicity, the subscript $z$ has been omitted. We should therefore always keep in mind that the vorticity is in the positive $z$-direction.
+\\
+\\
+To derive the vorticity equation, we take the partial derivative with respect to $x$ from \eqref{eq:Naviery} and the partial derivative with respect to $y$ from \eqref{eq:Navierx}. After that equation \eqref{eq:Navierx} is subtracted from \eqref{eq:Naviery}. Together with the continuity equation \eqref{eq:Cont} and the definition of vorticity \eqref{eq:defVorticity}, this results in \eqref{eq:VorticityEq}.
+
+\begin{equation}
+\frac{\partial \omega}{\partial t} + u \frac{\partial \omega}{\partial x} +  v \frac{\partial \omega}{\partial y} = \boldsymbol{\nu}\left(\frac{\partial^2 \omega}{\partial^2 x} + \frac{\partial^2 \omega}{\partial^2 y}\right)
+\label{eq:VorticityEq}
+\end{equation}
+\\
+\\
+Equation \eqref{eq:VorticityEq} describes the progression of a vortex throughout a fluid. 
+\\
+\\
+Introducing the stream function in equation \eqref{eq:defStream}
+
+\begin{equation}
+u = \frac{\partial \psi}{\partial y} \:\:\:\:\:	v = -\frac{\partial \psi}{\partial x}
+\label{eq:defStreamm}
+\end{equation}
+
+\begin{equation}
+\frac{\psi_{s} - \psi_{p} }{(\Delta y)^2} -\frac{u}{\Delta y} = \frac{\omega_{p} }{3} + \frac{\omega_{s} }{6}
+\label{eq:north}
+\end{equation}
+
+\begin{equation}
+\frac{\psi_{N} - \psi_{p} }{(\Delta y)^2} -\frac{u}{\Delta y} = - \frac{2 \omega_{p} }{3} + \frac{\omega_{N} }{6}
+\label{eq:south}
+\end{equation}
+
+\begin{equation}
+\frac{\partial\omega_{p}}{\partial x} =0 \:\:\:\:\: \frac{-3 \omega_{p} +4\omega_{w} -\omega_{ww} }{2\Delta x} = 0
+\label{eq:outlet}
+\end{equation}
+
+
 
 \lipsum[4] % Dummy text
 
