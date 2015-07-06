@@ -15,8 +15,7 @@ PHI = zeros(dimY,dimX);
 
 for ii = 2:(dimY-1)
     for jj = 2:(dimX-1)
-        B(ii,jj)=OMEGA(ii,jj);
-        % I think here we must go back to phi from omega
+        B(ii,jj)=-OMEGA(ii,jj);
     end
 end
 

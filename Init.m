@@ -4,13 +4,13 @@
 
 % Geometry
 
-geometry.h = 8;
-geometry.l = 4;
+geometry.h = 1;
+geometry.l = 1;
     
 % Number of degrees of freedom (number of nodes per length)
 
-dimX = 50;
-dimY = 100;
+dimX = 30;
+dimY = 30;
 
 % Boundary conditions (Only Dirichlet applied in Session 03) 
 
