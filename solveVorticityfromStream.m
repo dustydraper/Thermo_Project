@@ -1,5 +1,6 @@
-function [A,B] = solveVorticityfromStream(PHI,U,V,SPEED,geometry)
+function [A,B] = solveVorticityfromStream(PHI,U,V,SPEED,geometry,loop)
 %WE MUST SOLVE VORTICTY EQN 
+
 nu =1.0;
 [dimY,dimX] = size(PHI);
 index = @(ii,jj) ii + (jj-1)*dimY;
