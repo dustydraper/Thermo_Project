@@ -114,8 +114,7 @@ for j =1:dimX
         end
     elseif(j==dimX) %EAST
         for i=2:dimY-1
-            
-
+            B(i,j)= 0;
         end
     end
 end

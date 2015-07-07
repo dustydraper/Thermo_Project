@@ -21,7 +21,7 @@ for ii = 1:dimY
                 V(ii,jj) = -(-PHI(ii,jj-1)+PHI(ii,jj)) / delta_x;
             else
             
-            V(ii,jj) = -(-PHI(ii,jj-1)+PHI(ii,jj+1))/ (2*delta_x);
+                V(ii,jj) = -(-PHI(ii,jj-1)+PHI(ii,jj+1))/ (2*delta_x);
            
             end
         end

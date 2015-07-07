@@ -13,7 +13,7 @@ delta_x = l/(dimX-1);
 delta_y = h/(dimY-1);
 
 dt = 0.0001;
-tsteps = 50;
+tsteps = 10;
 tend = tsteps*dt;
 switch geometry.flow
     case 'const'
@@ -31,19 +31,19 @@ switch geometry.flow
         for i=1:dimY
             for j=1:dimX
                 if(i==1) %North
-                    OMEGA_N(i,j) = (U(i+1,j)-U(i,j) )/delta_y;
+                    OMEGA_N(i,j) = -(U(i+1,j)-U(i,j) )/delta_y;
                 elseif(i==dimY)%South
-                    OMEGA_N(i,j) = (U(i,j)-U(i-1,j) )/delta_y;
+                    OMEGA_N(i,j) = -(U(i,j)-U(i-1,j) )/delta_y;
                 elseif(i>1 && i<dimY) %internal
-                    OMEGA_N(i,j) = (U(i+1,j)-U(i-1,j) )/delta_y;
+                    OMEGA_N(i,j) = -(U(i+1,j)-U(i-1,j) )/(2*delta_y);
                 end
             end
         end
 end
 
-% %add source
-% OMEGA_N(round(dimY/3),round(dimX/4))=100;
-% OMEGA_N(round(2*dimY/3),round(dimX/4))=-100;
+ %add source
+ OMEGA_N(round(dimY/3),round(dimX/4))=1;
+ OMEGA_N(round(2*dimY/3),round(dimX/4))=-1;
 
 
 [ PHI, A_stream, B_stream ] = solveStream( X, Y, boundary, SPEED, geometry,OMEGA_N); % works properly
@@ -83,12 +83,43 @@ for  count = 0:dt:tend
     [A_vorticity,B_vorticity] =solveVorticityfromStream(PHI,U,V,SPEED,geometry);
     [OMEGA_N] = timeIntegration(OMEGA_N,A_vorticity,B_vorticity,dt);
     [PHI,B_vorticity] = solveStreamfromVorticity(OMEGA_N,geometry,A_stream, B_stream);
+    
+    
+    subplot(3,2,1)
+    pcolor(X,Y,U);
+    shading interp;
+    
+    subplot(3,2,2)
+    contour(X,Y,U);
+    
+    subplot(3,2,3)
+    pcolor(X,Y,OMEGA_N);
+    shading interp;
+    
+    subplot(3,2,4)
+    contour(X,Y,OMEGA_N);
+    
+    subplot(3,2,5)
+    contour(X,Y,PHI);
+    shading interp;
+    
+    
+    
+    
+    
+    drawnow;
+    filename = 'Vorticity.gif';
+    frame = getframe(gcf);
+    im = frame2im(frame);
+    [imind,cm]= rgb2ind(im,8);
+    if loop==0
+        imwrite(imind,cm,filename,'gif','Loopcount',inf);
+    else
+        imwrite(imind,cm,filename,'gif','WriteMode','append','Delaytime',0);
+    end
+    
     loop =loop +1;
     
-    figure(1)
-pcolor(X,Y,U);
-shading interp;
-pause(.1)
 end
 
 
