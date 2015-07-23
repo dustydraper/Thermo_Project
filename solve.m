@@ -12,8 +12,8 @@ h = geometry.h;
 delta_x = l/(dimX-1);
 delta_y = h/(dimY-1);
 
-dt = 0.0001;
-tsteps = 10;
+dt = 0.001;
+tsteps = 1000;
 tend = tsteps*dt;
 switch geometry.flow
     case 'const'
@@ -42,8 +42,19 @@ switch geometry.flow
 end
 
  %add source
- OMEGA_N(round(dimY/3),round(dimX/4))=1;
- OMEGA_N(round(2*dimY/3),round(dimX/4))=-1;
+ source = 100;
+ OMEGA_N(round(dimY/3),round(dimX/4))=source;
+ OMEGA_N(round(dimY/3)+1,round(dimX/4))=source;
+ OMEGA_N(round(dimY/3)-1,round(dimX/4))=source;
+ OMEGA_N(round(dimY/3),round(dimX/4)+1)=source;
+ OMEGA_N(round(dimY/3),round(dimX/4)-1)=source;
+ 
+ OMEGA_N(round(2*dimY/3),round(dimX/4))=-source;
+ OMEGA_N(round(2*dimY/3)+1,round(dimX/4))=-source;
+ OMEGA_N(round(2*dimY/3)-1,round(dimX/4))=-source;
+ OMEGA_N(round(2*dimY/3),round(dimX/4)-1)=-source;
+ OMEGA_N(round(2*dimY/3),round(dimX/4)+1)=-source;
+     
 
 
 [ PHI, A_stream, B_stream ] = solveStream( X, Y, boundary, SPEED, geometry,OMEGA_N); % works properly
@@ -77,38 +88,49 @@ end
 % end
 
 loop = 0;
-for  count = 0:dt:tend
+for  count = 0:dt:1
     
     [U,V] = solveVelocityfromStream( X,PHI, geometry);
     [A_vorticity,B_vorticity] =solveVorticityfromStream(PHI,U,V,SPEED,geometry);
     [OMEGA_N] = timeIntegration(OMEGA_N,A_vorticity,B_vorticity,dt);
+    if count < 1
+        OMEGA_N(round(dimY/3),round(dimX/4))=source;
+        OMEGA_N(round(dimY/3)+1,round(dimX/4))=source;
+        OMEGA_N(round(dimY/3)-1,round(dimX/4))=source;
+        OMEGA_N(round(dimY/3),round(dimX/4)+1)=source;
+        OMEGA_N(round(dimY/3),round(dimX/4)-1)=source;
+        
+        OMEGA_N(round(2*dimY/3),round(dimX/4))=-source;
+        OMEGA_N(round(2*dimY/3)+1,round(dimX/4))=-source;
+        OMEGA_N(round(2*dimY/3)-1,round(dimX/4))=-source;
+        OMEGA_N(round(2*dimY/3),round(dimX/4)-1)=-source;
+        OMEGA_N(round(2*dimY/3),round(dimX/4)+1)=-source;
+    end
     [PHI,B_vorticity] = solveStreamfromVorticity(OMEGA_N,geometry,A_stream, B_stream);
     
+if rem(loop,10) == 0    
+
+    quiver(X,Y,U,V);
+    title(count);
     
-    subplot(3,2,1)
-    pcolor(X,Y,U);
-    shading interp;
+%     subplot(3,2,2)
+%     contour(X,Y,U);
+%     
+%     subplot(3,2,3)
+%     pcolor(X,Y,OMEGA_N);
+%     shading interp;
+%     
+%     subplot(3,2,4)
+%     contour(X,Y,OMEGA_N);
     
-    subplot(3,2,2)
-    contour(X,Y,U);
-    
-    subplot(3,2,3)
-    pcolor(X,Y,OMEGA_N);
-    shading interp;
-    
-    subplot(3,2,4)
-    contour(X,Y,OMEGA_N);
-    
-    subplot(3,2,5)
-    contour(X,Y,PHI);
-    shading interp;
     
     
     
     
     
     drawnow;
-    filename = 'Vorticity.gif';
+    filename = 'pouisselle_10000.gif';
+    set(gcf,'units','normalized','outerposition',[0 0 1 1]);
     frame = getframe(gcf);
     im = frame2im(frame);
     [imind,cm]= rgb2ind(im,8);
@@ -117,7 +139,7 @@ for  count = 0:dt:tend
     else
         imwrite(imind,cm,filename,'gif','WriteMode','append','Delaytime',0);
     end
-    
+end
     loop =loop +1;
     
 end
