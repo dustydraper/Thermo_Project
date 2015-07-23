@@ -42,50 +42,29 @@ switch geometry.flow
 end
 
  %add source
- source = 100;
+ source = 50;
  OMEGA_N(round(dimY/3),round(dimX/4))=source;
  OMEGA_N(round(dimY/3)+1,round(dimX/4))=source;
  OMEGA_N(round(dimY/3)-1,round(dimX/4))=source;
  OMEGA_N(round(dimY/3),round(dimX/4)+1)=source;
  OMEGA_N(round(dimY/3),round(dimX/4)-1)=source;
+ OMEGA_N(round(dimY/3)+1,round(dimX/4)+1)=source;
+ OMEGA_N(round(dimY/3)-1,round(dimX/4)-1)=source;
+ OMEGA_N(round(dimY/3)-1,round(dimX/4)+1)=source;
+ OMEGA_N(round(dimY/3)+1,round(dimX/4)-1)=source;
  
  OMEGA_N(round(2*dimY/3),round(dimX/4))=-source;
  OMEGA_N(round(2*dimY/3)+1,round(dimX/4))=-source;
  OMEGA_N(round(2*dimY/3)-1,round(dimX/4))=-source;
  OMEGA_N(round(2*dimY/3),round(dimX/4)-1)=-source;
  OMEGA_N(round(2*dimY/3),round(dimX/4)+1)=-source;
-     
+ OMEGA_N(round(2*dimY/3)+1,round(dimX/4)+1)=-source;
+ OMEGA_N(round(2*dimY/3)-1,round(dimX/4)-1)=-source;
+ OMEGA_N(round(2*dimY/3)+1,round(dimX/4)-1)=-source;
+ OMEGA_N(round(2*dimY/3)-1,round(dimX/4)+1)=-source;
 
 
-[ PHI, A_stream, B_stream ] = solveStream( X, Y, boundary, SPEED, geometry,OMEGA_N); % works properly
-
-% This part is included so that the boundary velocities always stay the
-% same. Here, they are initialised and remain untouched throughout the
-% solveVelocityfromStream
-
-% for ii = 1:dimY
-%     for jj = 1:dimX
-%         if(ii==1)
-%
-%             U(ii,jj) = -(-PHI(ii,jj)+PHI(ii+1,jj)) / delta_y;
-% %             U(ii,jj) = 0;
-%         elseif(ii==dimY)
-%             U(ii,jj) = -(-PHI(ii-1,jj)+PHI(ii,jj)) / delta_y;
-% %             U(ii,jj) = 0;
-%         end
-%     end
-% end
-%
-% for ii = 1:dimY
-%     for jj = 1:dimX
-%         if(jj==1)
-%             V(ii,jj) = -(PHI(ii,jj+1)-PHI(ii,jj)) / delta_x;
-%
-%         elseif(jj==dimX)
-%             V(ii,jj) = -(-PHI(ii,jj-1)+PHI(ii,jj)) / delta_x;
-%         end
-%     end
-% end
+[ PHI, A_stream, B_stream ] = solveStream( X, Y, boundary, SPEED, geometry,OMEGA_N); 
 
 loop = 0;
 for  count = 0:dt:1
@@ -93,41 +72,33 @@ for  count = 0:dt:1
     [U,V] = solveVelocityfromStream( X,PHI, geometry);
     [A_vorticity,B_vorticity] =solveVorticityfromStream(PHI,U,V,SPEED,geometry);
     [OMEGA_N] = timeIntegration(OMEGA_N,A_vorticity,B_vorticity,dt);
-    if count < 1
+    if count < .4
         OMEGA_N(round(dimY/3),round(dimX/4))=source;
         OMEGA_N(round(dimY/3)+1,round(dimX/4))=source;
         OMEGA_N(round(dimY/3)-1,round(dimX/4))=source;
         OMEGA_N(round(dimY/3),round(dimX/4)+1)=source;
         OMEGA_N(round(dimY/3),round(dimX/4)-1)=source;
+        OMEGA_N(round(dimY/3)+1,round(dimX/4)+1)=source;
+        OMEGA_N(round(dimY/3)-1,round(dimX/4)-1)=source;
+        OMEGA_N(round(dimY/3)-1,round(dimX/4)+1)=source;
+        OMEGA_N(round(dimY/3)+1,round(dimX/4)-1)=source;
         
         OMEGA_N(round(2*dimY/3),round(dimX/4))=-source;
         OMEGA_N(round(2*dimY/3)+1,round(dimX/4))=-source;
         OMEGA_N(round(2*dimY/3)-1,round(dimX/4))=-source;
         OMEGA_N(round(2*dimY/3),round(dimX/4)-1)=-source;
         OMEGA_N(round(2*dimY/3),round(dimX/4)+1)=-source;
+        OMEGA_N(round(2*dimY/3)+1,round(dimX/4)+1)=-source;
+        OMEGA_N(round(2*dimY/3)-1,round(dimX/4)-1)=-source;
+        OMEGA_N(round(2*dimY/3)+1,round(dimX/4)-1)=-source;
+        OMEGA_N(round(2*dimY/3)-1,round(dimX/4)+1)=-source;
     end
     [PHI,B_vorticity] = solveStreamfromVorticity(OMEGA_N,geometry,A_stream, B_stream);
     
 if rem(loop,10) == 0    
 
-    quiver(X,Y,U,V);
+    pcolor(X,Y,OMEGA_N);
     title(count);
-    
-%     subplot(3,2,2)
-%     contour(X,Y,U);
-%     
-%     subplot(3,2,3)
-%     pcolor(X,Y,OMEGA_N);
-%     shading interp;
-%     
-%     subplot(3,2,4)
-%     contour(X,Y,OMEGA_N);
-    
-    
-    
-    
-    
-    
     drawnow;
     filename = 'pouisselle_10000.gif';
     set(gcf,'units','normalized','outerposition',[0 0 1 1]);

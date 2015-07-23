@@ -12,8 +12,8 @@ geometry.flow = 'poiseuille';
 
 % Number of degrees of freedom (number of nodes per length)
 
-dimX = 51;
-dimY = 51;
+dimX = 75;
+dimY = 75;
 
 dy = geometry.h/(dimY-1);
 
